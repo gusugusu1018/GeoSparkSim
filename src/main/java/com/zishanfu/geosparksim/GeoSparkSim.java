@@ -81,6 +81,13 @@ public class GeoSparkSim implements Runnable {
     private int num;
 
     @Option(
+            names = {"-p", "--partition"},
+            type = int.class,
+            description = "The number of partition. Default value: ${DEFAULT-VALUE}",
+            defaultValue = "70")
+    private int partition;
+
+    @Option(
             names = {"-s", "--step"},
             type = int.class,
             description = "The simulation steps. Default value: ${DEFAULT-VALUE}",
@@ -163,7 +170,9 @@ public class GeoSparkSim implements Runnable {
                 LOG.warn("Please enter a vehicle number not smaller than 1000.");
             } else {
                 simConfig =
-                        new SimConfig(lat1, lon1, lat2, lon2, num, output, step, timestep, type);
+                        new SimConfig(
+                                lat1, lon1, lat2, lon2, num, partition, output, step, timestep,
+                                type);
                 start(spark, simConfig);
             }
 
@@ -189,6 +198,7 @@ public class GeoSparkSim implements Runnable {
             simConfig.setLon2(Double.parseDouble(prop.getProperty("geo2.lon")));
             simConfig.setType(prop.getProperty("vehicle.type"));
             simConfig.setTotal(Integer.parseInt(prop.getProperty("vehicle.num")));
+            simConfig.setPartition(Integer.parseInt(prop.getProperty("simulation.partition")));
             simConfig.setTimestep(Double.parseDouble(prop.getProperty("simulation.timestep")));
             simConfig.setStep(Integer.parseInt(prop.getProperty("simulation.step")));
             simConfig.setOutputPath(prop.getProperty("simulation.output"));

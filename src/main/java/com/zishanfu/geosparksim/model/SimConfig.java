@@ -21,6 +21,7 @@ public class SimConfig {
             double lat2,
             double lon2,
             int total,
+            int partition,
             String outputPath,
             int step,
             double timestep,
@@ -30,11 +31,11 @@ public class SimConfig {
         this.lat2 = lat2;
         this.lon2 = lon2;
         this.total = total;
+        this.partition = partition;
         this.outputPath = outputPath;
         this.step = step;
         this.timestep = timestep;
         this.type = type;
-        this.partition = total / 70;
     }
 
     public double getLat1() {
@@ -75,7 +76,6 @@ public class SimConfig {
 
     public void setTotal(int total) {
         this.total = total;
-        this.partition = total / 70;
     }
 
     public String getOutputPath() {
