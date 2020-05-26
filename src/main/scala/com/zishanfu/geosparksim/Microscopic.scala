@@ -231,7 +231,7 @@ object Microscopic {
 
     val iteration = newSteps / bestRepartition + (if (newSteps % bestRepartition == 0) 0 else 1)
 
-    logger.warn("best repartition: " + bestRepartition)
+    logger.warn("best repartition period :" + bestRepartition + "steps")
 
     for(n <- 1 to iteration){
 
