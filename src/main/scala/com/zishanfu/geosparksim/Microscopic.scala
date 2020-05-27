@@ -225,13 +225,13 @@ object Microscopic {
 
     //if the number of vehicles is larger than 100k,
     // GeoSparkSim will do sample simulation to find the best repartition period with minimum time cost
-    val bestRepartition = if(vehicleRDD.getRawSpatialRDD.count() < 100000) steps/5 else repartitionCriterion(vehicleRDD, signalRDD, edgeRDD, steps, timestep, numPartition)
+    val bestRepartitionPeriod = if(vehicleRDD.getRawSpatialRDD.count() < 100000) steps/5 else repartitionCriterion(vehicleRDD, signalRDD, edgeRDD, steps, timestep, numPartition)
 
     val newSteps = (steps / timestep).toInt
 
-    val iteration = newSteps / bestRepartition + (if (newSteps % bestRepartition == 0) 0 else 1)
+    val iteration = newSteps / bestRepartitionPeriod + (if (newSteps % bestRepartitionPeriod == 0) 0 else 1)
 
-    logger.warn("best repartition period :" + bestRepartition + "steps")
+    logger.warn("best repartition period :" + bestRepartitionPeriod + "steps")
 
     for(n <- 1 to iteration){
 
@@ -268,7 +268,7 @@ object Microscopic {
             edgeMap = vehicle.born(edgeMap, "Sync")
           })
 
-          for(i <- bestRepartition*(n-1)+1 to bestRepartition*n){
+          for(i <- bestRepartitionPeriod*(n-1)+1 to bestRepartitionPeriod*n){
             if(i <= steps){
               for (wid <- signalWayMap.keySet().asScala){
                 val light = signalWayMap.get(wid)
@@ -303,7 +303,7 @@ object Microscopic {
 
       val t3 = System.currentTimeMillis()
       if(n != iteration){
-        val recoverTuple = recovery(vehicleRDD.getRawSpatialRDD.rdd, signalRDD.getRawSpatialRDD.rdd, reportRDD, n*bestRepartition, numPartition)
+        val recoverTuple = recovery(vehicleRDD.getRawSpatialRDD.rdd, signalRDD.getRawSpatialRDD.rdd, reportRDD, n*bestRepartitionPeriod, numPartition)
         vehicleRDD.setRawSpatialRDD(recoverTuple._1)
         signalRDD.setRawSpatialRDD(recoverTuple._2)
         vehicleRDD.spatialPartitioning(GridType.KDBTREE, numPartition)
@@ -364,7 +364,7 @@ object Microscopic {
     */
   def repartitionCriterion(vehicleRDD: SpatialRDD[MOBILVehicle], signalRDD: SpatialRDD[TrafficLight], edgeRDD: SpatialRDD[Link], steps: Int, timestep: Double, numPartition: Int): Int = {
     // 1/10 to 1/2 sample
-    var bestRepartition = Int.MaxValue
+    var bestRepartitionPeriod = Int.MaxValue
     var minTime = Double.PositiveInfinity
 
     for(repartition <- steps/10 until steps/2 by (2*steps/25)){
@@ -457,11 +457,11 @@ object Microscopic {
       time = time + t2 - t1
       if(time < minTime){
         minTime = time
-        bestRepartition = repartition
+        bestRepartitionPeriod = repartition
       }
     }
 
-    bestRepartition
+    bestRepartitionPeriod
   }
 
 
