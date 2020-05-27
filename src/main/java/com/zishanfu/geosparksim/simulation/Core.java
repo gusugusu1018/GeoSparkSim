@@ -109,7 +109,7 @@ public class Core {
                 simConfig.getTimestep(),
                 simConfig.getPartition());
         long t2 = System.currentTimeMillis();
-        LOG.info("Finished Simulation: " + (t2 - t1) / 1000);
+        LOG.warn("Finished Simulation: " + (t2 - t1) / 1000 + " sec");
 
         ReportHandler reportHandler = new ReportHandler(spark, path, simConfig.getPartition());
         Dataset<StepReport> reports = reportHandler.readReportJson();
