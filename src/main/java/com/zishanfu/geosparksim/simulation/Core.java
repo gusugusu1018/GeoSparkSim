@@ -107,7 +107,8 @@ public class Core {
                 path,
                 simConfig.getStep(),
                 simConfig.getTimestep(),
-                simConfig.getPartition());
+                simConfig.getPartition(),
+                simConfig.getRepartitionPeriod());
         long t2 = System.currentTimeMillis();
         LOG.warn("Finished Simulation: " + (t2 - t1) / 1000 + " sec");
 

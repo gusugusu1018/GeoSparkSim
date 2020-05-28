@@ -12,6 +12,7 @@ public class SimConfig {
     private double timestep;
     private String type;
     private int partition;
+    private int repartitionPeriod;
 
     public SimConfig() {}
 
@@ -22,6 +23,7 @@ public class SimConfig {
             double lon2,
             int total,
             int partition,
+            int repartitionPeriod,
             String outputPath,
             int step,
             double timestep,
@@ -32,6 +34,7 @@ public class SimConfig {
         this.lon2 = lon2;
         this.total = total;
         this.partition = partition;
+        this.repartitionPeriod = repartitionPeriod;
         this.outputPath = outputPath;
         this.step = step;
         this.timestep = timestep;
@@ -118,6 +121,14 @@ public class SimConfig {
         this.partition = partition;
     }
 
+    public void setRepartitionPeriod(int repartitionPeriod) {
+        this.repartitionPeriod = repartitionPeriod;
+    }
+
+    public int getRepartitionPeriod() {
+        return repartitionPeriod;
+    }
+
     @Override
     public String toString() {
         return "\nP1: "
@@ -142,9 +153,11 @@ public class SimConfig {
                 + "Generation Type: "
                 + type
                 + "\n"
-                + "Repartition Time: "
                 + "Partition: "
                 + partition
+                + "\n"
+                + "Repartition Time: "
+                + repartitionPeriod
                 + "\n"
                 + "Output: "
                 + outputPath

@@ -87,7 +87,7 @@ object Microscopic {
     * @param numPartition the number of partitions
     */
   def sim(sparkSession: SparkSession, edges: Dataset[Link], signals: Dataset[TrafficLight], intersects: Dataset[Intersect], vehicles: Dataset[MOBILVehicle],
-          path: String, steps: Int, timestep: Double, numPartition: Int): Unit = {
+          path: String, steps: Int, timestep: Double, numPartition: Int, repartitionPeriod: Int): Unit = {
     val rand = new Random
     val vehicleRDD = new SpatialRDD[MOBILVehicle]
     vehicleRDD.setRawSpatialRDD(vehicles.rdd)
@@ -225,7 +225,8 @@ object Microscopic {
 
     //if the number of vehicles is larger than 100k,
     // GeoSparkSim will do sample simulation to find the best repartition period with minimum time cost
-    val bestRepartitionPeriod = if(vehicleRDD.getRawSpatialRDD.count() < 100000) steps/5 else repartitionCriterion(vehicleRDD, signalRDD, edgeRDD, steps, timestep, numPartition)
+    // val bestRepartitionPeriod = if(vehicleRDD.getRawSpatialRDD.count() < 100000) steps/5 else repartitionCriterion(vehicleRDD, signalRDD, edgeRDD, steps, timestep, numPartition)
+    val bestRepartitionPeriod = repartitionPeriod
 
     val newSteps = (steps / timestep).toInt
 

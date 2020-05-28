@@ -88,6 +88,13 @@ public class GeoSparkSim implements Runnable {
     private int partition;
 
     @Option(
+            names = {"-rpp", "--repartitionPeriod"},
+            type = int.class,
+            description = "steps of repartition period. Default value: ${DEFAULT-VALUE}",
+            defaultValue = "120")
+    private int repartitionPeriod;
+
+    @Option(
             names = {"-s", "--step"},
             type = int.class,
             description = "The simulation steps. Default value: ${DEFAULT-VALUE}",
@@ -171,7 +178,16 @@ public class GeoSparkSim implements Runnable {
             } else {
                 simConfig =
                         new SimConfig(
-                                lat1, lon1, lat2, lon2, num, partition, output, step, timestep,
+                                lat1,
+                                lon1,
+                                lat2,
+                                lon2,
+                                num,
+                                partition,
+                                repartitionPeriod,
+                                output,
+                                step,
+                                timestep,
                                 type);
                 start(spark, simConfig);
             }
@@ -199,6 +215,8 @@ public class GeoSparkSim implements Runnable {
             simConfig.setType(prop.getProperty("vehicle.type"));
             simConfig.setTotal(Integer.parseInt(prop.getProperty("vehicle.num")));
             simConfig.setPartition(Integer.parseInt(prop.getProperty("simulation.partition")));
+            simConfig.setRepartitionPeriod(
+                    Integer.parseInt(prop.getProperty("simulation.repartitionPeriod")));
             simConfig.setTimestep(Double.parseDouble(prop.getProperty("simulation.timestep")));
             simConfig.setStep(Integer.parseInt(prop.getProperty("simulation.step")));
             simConfig.setOutputPath(prop.getProperty("simulation.output"));
