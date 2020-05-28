@@ -30,7 +30,7 @@ public class Core {
      * @param simConfig the simulation configuration
      */
     public void preprocess(SparkSession spark, SimConfig simConfig) {
-        LOG.info(simConfig.toString());
+        LOG.warn(simConfig.toString());
 
         HDFSUtil hdfs = new HDFSUtil(simConfig.getOutputPath());
         String name = "/geosparksim";
@@ -87,7 +87,7 @@ public class Core {
         Dataset<TrafficLight> signals = networkReader.readSignalJson();
         Dataset<Intersect> intersects = networkReader.readIntersectJson();
         Dataset<MOBILVehicle> vehicles = vehicleHandler.readVehicleTrajectoryJson();
-        LOG.info(
+        LOG.warn(
                 "Read: edge: "
                         + edges.count()
                         + ", signals: "
