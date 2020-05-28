@@ -110,7 +110,7 @@ public class Core {
                 simConfig.getPartition(),
                 simConfig.getRepartitionPeriod());
         long t2 = System.currentTimeMillis();
-        LOG.warn("Finished Simulation: " + (t2 - t1) / 1000 + " sec");
+        LOG.warn("Finished Simulation: " + (t2 - t1) + " ms");
 
         ReportHandler reportHandler = new ReportHandler(spark, path, simConfig.getPartition());
         Dataset<StepReport> reports = reportHandler.readReportJson();
