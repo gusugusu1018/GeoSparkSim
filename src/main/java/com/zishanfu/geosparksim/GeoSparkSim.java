@@ -218,11 +218,14 @@ public class GeoSparkSim implements Runnable {
             simConfig.setRepartitionPeriod(
                     Integer.parseInt(prop.getProperty("simulation.repartitionPeriod")));
             simConfig.setTimestep(Double.parseDouble(prop.getProperty("simulation.timestep")));
-            simConfig.setStep(Integer.parseInt(prop.getProperty("simulation.step")));
             simConfig.setOutputPath(prop.getProperty("simulation.output"));
-
-            start(spark, simConfig);
-
+            simConfig.setStep(Integer.parseInt(prop.getProperty("simulation.step")));
+            if (Boolean.parseBoolean(prop.getProperty("simulation.skipPreprocess"))) {
+                Core core = new Core();
+                core.simulation(spark, simConfig, appTitle);
+            } else {
+                start(spark, simConfig);
+            }
             // Default setting
         } else {
             start(spark, simConfig);
