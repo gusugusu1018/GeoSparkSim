@@ -26,7 +26,7 @@ public class OsmLoader {
         this.path = path;
     }
 
-    public void osm() {
+    public void osmDownloader() {
         String OSM_URL = "http://overpass-api.de/api/map?bbox=";
         URL url = null;
 
@@ -56,7 +56,7 @@ public class OsmLoader {
         }
     }
 
-    public void parquet() {
+    public void parquetizer() {
         File osmFile = new File(newFileName);
         XmlReader xmlReader = new XmlReader(osmFile, true, CompressionMethod.None);
         xmlReader.setSink(new OsmParquetSink(path));

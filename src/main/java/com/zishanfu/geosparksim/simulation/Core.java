@@ -45,8 +45,8 @@ public class Core {
         Coordinate newCoor2 = new Coordinate(coor2.x + maxLen, coor2.y - maxLen);
 
         OsmLoader osmLoader = new OsmLoader(newCoor1, newCoor2, output);
-        osmLoader.osm();
-        osmLoader.parquet();
+        osmLoader.osmDownloader();
+        osmLoader.parquetizer();
 
         RoadNetwork roadNetwork = OsmConverter.convertToRoadNetwork(spark, output);
         RoadNetworkWriter networkWriter = new RoadNetworkWriter(spark, roadNetwork, output);
