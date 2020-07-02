@@ -213,7 +213,7 @@ public class GeoSparkSim implements Runnable {
      */
     private void start(SparkSession spark, SimConfig simConfig) {
         Core core = new Core();
-        core.preprocess(spark, simConfig);
+        //        core.preprocess(spark, simConfig);
         core.simulation(spark, simConfig, appTitle);
     }
 }
