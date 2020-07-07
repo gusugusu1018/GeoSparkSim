@@ -130,8 +130,8 @@ public class GenerateBtnHandler implements ActionListener {
                                 String output = outputPath + name;
 
                                 OsmLoader osmLoader = new OsmLoader(newCoor1, newCoor2, output);
-                                osmLoader.parquet();
-                                osmLoader.osm();
+                                osmLoader.osmDownloader();
+                                osmLoader.parquetizer();
 
                                 textArea.append("Output Path: " + output + "\n");
 
@@ -186,7 +186,7 @@ public class GenerateBtnHandler implements ActionListener {
 
                                 List<StepReport> res;
                                 long simBegin = System.currentTimeMillis();
-
+                                int repartitionperiod = 12;
                                 LOG.warn("Running in spark");
                                 Microscopic.sim(
                                         spark,
@@ -197,7 +197,8 @@ public class GenerateBtnHandler implements ActionListener {
                                         output,
                                         step,
                                         timestep,
-                                        total / 70);
+                                        total / 70,
+                                        repartitionperiod);
                                 ReportHandler reportHandler = new ReportHandler(spark, output, 50);
                                 Dataset<StepReport> reports = reportHandler.readReportJson();
                                 res = reports.collectAsList();

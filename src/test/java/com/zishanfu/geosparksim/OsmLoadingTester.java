@@ -57,8 +57,8 @@ public class OsmLoadingTester extends GeoSparkSimTestBase {
     @Test
     public void testOSMLoading() {
         OsmLoader osmLoader = new OsmLoader(coor1, coor2, path);
-        osmLoader.osm();
-        osmLoader.parquet();
+        osmLoader.osmDownloader();
+        osmLoader.parquetizer();
         File osm = new File(path + "/map.osm");
         File node = new File(path + "/node.parquet");
         File way = new File(path + "/way.parquet");
