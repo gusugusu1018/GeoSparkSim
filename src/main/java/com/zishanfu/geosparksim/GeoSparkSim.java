@@ -135,6 +135,11 @@ public class GeoSparkSim implements Runnable {
     private String manuscript;
 
     @Option(
+            names = {"-d", "--distribute"},
+            description = "distribute mode")
+    private boolean distribute;
+
+    @Option(
             names = {"-h", "--help"},
             usageHelp = true,
             description = "Print usage help and exit.")
@@ -153,15 +158,31 @@ public class GeoSparkSim implements Runnable {
     @Override
     public void run() {
 
-        SparkSession spark =
-                SparkSession.builder()
-                        .master("local[*]") // Developing mode
-                        .appName("GeoSparkSim")
-                        .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-                        .config(
-                                "spark.kryo.registrator",
-                                "org.datasyslab.geospark.serde.GeoSparkKryoRegistrator")
-                        .getOrCreate();
+        SparkSession spark;
+        if (distribute) {
+            spark =
+                    SparkSession.builder()
+                            .appName("GeoSparkSim")
+                            .config(
+                                    "spark.serializer",
+                                    "org.apache.spark.serializer.KryoSerializer")
+                            .config(
+                                    "spark.kryo.registrator",
+                                    "org.datasyslab.geospark.serde.GeoSparkKryoRegistrator")
+                            .getOrCreate();
+        } else {
+            spark =
+                    SparkSession.builder()
+                            .master("local[*]")
+                            .appName("GeoSparkSim")
+                            .config(
+                                    "spark.serializer",
+                                    "org.apache.spark.serializer.KryoSerializer")
+                            .config(
+                                    "spark.kryo.registrator",
+                                    "org.datasyslab.geospark.serde.GeoSparkKryoRegistrator")
+                            .getOrCreate();
+        }
 
         SimConfig simConfig = new SimConfig();
 
