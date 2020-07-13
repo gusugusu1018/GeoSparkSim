@@ -34,8 +34,10 @@ public class Core {
 
         HDFSUtil hdfs = new HDFSUtil(simConfig.getOutputPath());
         String name = "/geosparksim";
-        hdfs.deleteDir(name);
-        hdfs.mkdir(name);
+        if (!simConfig.getSkipDownload()) {
+            hdfs.deleteDir(name);
+            hdfs.mkdir(name);
+        }
         String output = simConfig.getOutputPath() + name;
 
         Coordinate coor1 = new Coordinate(simConfig.getLat1(), simConfig.getLon1());
@@ -45,7 +47,9 @@ public class Core {
         Coordinate newCoor2 = new Coordinate(coor2.x + maxLen, coor2.y - maxLen);
 
         OsmLoader osmLoader = new OsmLoader(newCoor1, newCoor2, output);
-        osmLoader.osmDownloader();
+        if (!simConfig.getSkipDownload()) {
+            osmLoader.osmDownloader();
+        }
         osmLoader.parquetizer();
 
         RoadNetwork roadNetwork = OsmConverter.convertToRoadNetwork(spark, output);

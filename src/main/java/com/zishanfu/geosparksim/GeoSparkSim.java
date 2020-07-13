@@ -135,6 +135,11 @@ public class GeoSparkSim implements Runnable {
     private String manuscript;
 
     @Option(
+            names = {"--skipDonwnload"},
+            description = "skipDownload")
+    private boolean skipDownload;
+
+    @Option(
             names = {"-d", "--distribute"},
             description = "distribute mode")
     private boolean distribute;
@@ -241,6 +246,8 @@ public class GeoSparkSim implements Runnable {
             simConfig.setTimestep(Double.parseDouble(prop.getProperty("simulation.timestep")));
             simConfig.setOutputPath(prop.getProperty("simulation.output"));
             simConfig.setStep(Integer.parseInt(prop.getProperty("simulation.step")));
+            simConfig.setSkipDownload(
+                    Boolean.parseBoolean(prop.getProperty("simulation.skipPreprocess")));
             if (Boolean.parseBoolean(prop.getProperty("simulation.skipPreprocess"))) {
                 Core core = new Core();
                 core.simulation(spark, simConfig, appTitle);

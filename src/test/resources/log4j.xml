@@ -16,7 +16,7 @@
     </logger>
     <!-- order important otherwise we'll get a warning -->
     <root>
-        <priority value="warn"></priority>
+        <priority value="info"></priority>
         <appender-ref ref="ASYNC"/>
     </root>
 </log4j:configuration>

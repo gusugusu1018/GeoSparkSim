@@ -13,6 +13,7 @@ public class SimConfig {
     private String type;
     private int partition;
     private int repartitionPeriod;
+    private boolean skipDownload = false;
 
     public SimConfig() {}
 
@@ -127,6 +128,14 @@ public class SimConfig {
 
     public int getRepartitionPeriod() {
         return repartitionPeriod;
+    }
+
+    public void setSkipDownload(boolean skip) {
+        this.skipDownload = skip;
+    }
+
+    public boolean getSkipDownload() {
+        return skipDownload;
     }
 
     @Override

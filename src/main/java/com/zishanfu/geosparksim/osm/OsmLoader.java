@@ -24,6 +24,7 @@ public class OsmLoader {
         this.geo1 = geo1;
         this.geo2 = geo2;
         this.path = path;
+        newFileName = String.format("%s/%s.osm", path, "map");
     }
 
     public void osmDownloader() {
@@ -42,8 +43,6 @@ public class OsmLoader {
         } catch (MalformedURLException e) {
             LOG.warn("The OSM download URL is incorrect.", e);
         }
-
-        newFileName = String.format("%s/%s.osm", path, "map");
 
         try {
             ReadableByteChannel rbc = Channels.newChannel(url.openStream());
